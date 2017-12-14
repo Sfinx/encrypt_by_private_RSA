@@ -8,5 +8,8 @@ typedef unsigned char u8;
 //   add DECRYPT_BLOCK_SIZE to out header
 
 // values for 768 key
-#define ENCRYPT_BLOCK_SIZE    85
-#define DECRYPT_BLOCK_SIZE    96
+// #define ENCRYPT_BLOCK_SIZE    85
+// #define DECRYPT_BLOCK_SIZE    96
+// values for 1024 key
+#define ENCRYPT_BLOCK_SIZE    117
+#define DECRYPT_BLOCK_SIZE    128

@@ -1,0 +1,6 @@
+*.o
+*.bin
+.depend
+dec
+enc
+test.*

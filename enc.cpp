@@ -1,4 +1,5 @@
 
+#include <inttypes.h>
 #include <openssl/rsa.h>
 #include <openssl/engine.h>
 #include <openssl/pem.h>
@@ -66,9 +67,9 @@ int main(int argc, char **argv)
    cout << "Can't load privkey !\n";
    exit(-1);
  } 
- streamsize in_size = in_file.tellg();
+ uint64_t in_size = in_file.tellg();
  in_file.seekg(0, ios::beg);
- u8 in_data[DECRYPT_BLOCK_SIZE];
+ u8 in_data[ENCRYPT_BLOCK_SIZE];
  ofstream out_file(argv[2], ios::binary);
  if (!out_file) {
    cout << "Can't open " << argv[2] << " !\n";
@@ -76,7 +77,7 @@ int main(int argc, char **argv)
  }
  out_file.write((char *)&in_size, sizeof(in_size));
  cout << "encrypting " << in_size << " bytes of " << argv[1] << " to " << argv[2] << " .. ";
- for (streamsize total = 0; total < in_size; total += ENCRYPT_BLOCK_SIZE) {
+ for (uint64_t total = 0; total < in_size; total += ENCRYPT_BLOCK_SIZE) {
    int n_read = ((total + ENCRYPT_BLOCK_SIZE) < in_size) ? ENCRYPT_BLOCK_SIZE : in_size - total;
    in_file.read((char *)in_data, n_read);
    if (!in_file)

@@ -1,4 +1,5 @@
 
+#include <inttypes.h>
 #include <openssl/rsa.h>
 #include <openssl/engine.h>
 #include <openssl/pem.h>
@@ -57,10 +58,10 @@ int main(int argc, char **argv)
    exit(-1);
  }
  RSA *pubKey = str2pubkey(pub_key.str().c_str());
- streamsize total_size = in_file.tellg();
+ uint64_t total_size = in_file.tellg();
  total_size -= 4; // file size data at the beginning
  in_file.seekg(0, ios::beg);
- streamsize in_size;
+ uint64_t in_size;
  in_file.read((char *)&in_size, sizeof(in_size)); 
  u8 in_data[DECRYPT_BLOCK_SIZE];
  ofstream out_file(argv[2], ios::binary);
@@ -69,8 +70,8 @@ int main(int argc, char **argv)
    exit(-1);
  }
  cout << "decrypting " << total_size << " bytes of " << argv[1] << " to " << in_size << " of " << argv[2] << " .. ";
- int total_written = 0;
- for (streamsize total = 0; total < total_size; total_size += DECRYPT_BLOCK_SIZE) {
+ uint64_t total_written = 0;
+ for (uint64_t total = 0; total < total_size; total_size += DECRYPT_BLOCK_SIZE) {
    int n_read = ((total + DECRYPT_BLOCK_SIZE) < total_size) ? DECRYPT_BLOCK_SIZE : total_size - total;
    in_file.read((char *)in_data, n_read);
    if (!in_file)

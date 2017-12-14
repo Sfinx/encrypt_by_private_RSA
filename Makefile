@@ -6,7 +6,7 @@ OPTIMIZE = -O3 -Wall
 DEFINES 	= -D__USE_REENTRANT -D_REENTRANT -D_THREAD_SAFE -D_LIBC_REENTRANT -D_GNU_SOURCE
 INCLUDES	= -I.
 CFLAGS		= $(DEFINES) $(INCLUDES) $(DEBUG) $(OPTIMIZE)
-CPPFLAGS	= $(CFLAGS)
+CPPFLAGS	= $(CFLAGS) -std=gnu++11
 LIBS		+= -lssl -lcrypto
 LDFLAGS		= $(STATIC) $(DEBUG) -Wl,-Bdynamic -Wl,-O6 -Wl,--start-group $(LIBS) -Wl,--end-group
 ENC_TARGET		= enc
