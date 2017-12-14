@@ -42,6 +42,16 @@ u8* rsaEncrypt(RSA *privKey, const u8* in_data, int in_size, int *out_size)
  return enc_buf;
 }
 
+/*
+string pass;
+
+static int pass_cb(char *buf, int size, int rwflag, void *u)
+{
+ strcpy(buf, pass.c_str()); 
+ return pass.size();
+}
+*/
+
 // encrypt file by private key
 // ./enc in.bin out.bin priv.key
 int main(int argc, char **argv)
@@ -50,6 +60,9 @@ int main(int argc, char **argv)
  OpenSSL_add_all_algorithms();
  if (argc < 4)
    exit(-1); 
+ // pass = argv[4];
+ // if (pass.size())
+ //   set default pass 
  ifstream in_file(argv[1], ios::binary | ios::ate);
  if (!in_file) {
    cout << "Can't open " << argv[1] << " !\n";

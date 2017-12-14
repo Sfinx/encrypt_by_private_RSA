@@ -3,7 +3,7 @@
 key_pass='34fefd7a5e239681fe83bf4e3bef7dca'
 echo -n "Generating keys .. "  
 rm -f test*
-ssh-keygen -b 1024 -f test -q -N ""
+ssh-keygen -b 1024 -f test -q -N "$key_pass"
 ssh-keygen -f test.pub -e -m pkcs8 > pub.pem
 mv test test.priv
 mv pub.pem test.pub
@@ -13,10 +13,11 @@ dd if=/dev/urandom of=in.bin bs=10212 count=3 > /dev/null 2>&1
 echo done
 md5sum in.bin
 echo -n "Encrypting .. "
+# manually enter the password
 ./enc in.bin out.bin test.priv
 echo done
 echo "Signing .. "
-openssl dgst -sha512 -sign test.priv -out sign.bin out.bin
+openssl dgst -passin pass:"$key_pass" -sha512 -sign test.priv -out sign.bin out.bin
 echo done
 cat out.bin sign.bin > send.bin
 rm -f out.bin sign.bin
